@@ -1,0 +1,7 @@
+audio:
+  input: /home/lucas/emrai-synthetic-diarization-corpus/librispeech2/dev_other/wavs49
+  output: /home/lucas/augmented-emrai-corpus
+augmentation:
+  SNR:
+  - 0
+  noise_dir: /home/lucas/Diarization_Utils/audio/free-sound-wav49-concat.wav
