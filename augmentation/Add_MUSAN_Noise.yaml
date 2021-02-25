@@ -1,0 +1,9 @@
+audio:
+ input: /home/lvanwyk1/lustre/emrai-synthetic-diarization-corpus/librispeech2/dev_other/wavs49
+ output: /home/lvanwyk1/lustre/augmented-emrai-corpus
+
+augmentation:
+ SNR: [0] #List of SNRs
+ noise_dir: /home/lvanwyk1/Diarization_Utils/audio/free-sound-wav49-concat.wav
+
+ 
