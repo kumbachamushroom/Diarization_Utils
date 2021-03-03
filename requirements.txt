@@ -1,0 +1,8 @@
+numpy
+pandas
+nemo_toolkit[all]==1.0.0b3
+pyannote.audio
+pyannote.metrics
+pyannote.database
+sklearn
+scipy

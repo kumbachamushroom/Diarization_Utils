@@ -1,3 +1,11 @@
+'''
+This script performs speaker diarisation on EMRAI corpus using SpeakerNet from Speaker-NeMo
+more info at: https://ngc.nvidia.com/catalog/models/nvidia:nemospeechmodels
+Trained on voxceleb 1&2 and augmented with MUSAN
+
+Use script with SpekaerNet_Diarisation_EMRAI.yaml
+'''
+
 import os
 import glob
 import json
