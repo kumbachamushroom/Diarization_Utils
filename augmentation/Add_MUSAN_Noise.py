@@ -45,7 +45,7 @@ def add_signals(track, noise):
 
 def overlay_noise(input_list, out_dir, SNR_list, noise, noise_duration):
     for SNR in SNR_list:
-        print(SNR)
+        print(input_list)
         os.system('mkdir -p {}'.format(out_dir+'/SNR_{}'.format(SNR)))
         for input_filename in input_list:
             track, sr = librosa.load(input_filename, sr=None)
@@ -53,7 +53,7 @@ def overlay_noise(input_list, out_dir, SNR_list, noise, noise_duration):
             #track_duration = librosa.get_duration(y=track, sr=sr)
             #print('track duration is {}'.format(track_duration))
             start = random.randrange(0,len(noise)-len(track))
-            print('start is {}'.format(start))
+            print('entering loop')
             noise_proc = noise[start:start+len(track)]
             print('this is noise {}'.format(noise))
             print('this is noise proc {}'.format(noise_proc))
