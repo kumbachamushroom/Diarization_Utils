@@ -1,10 +1,12 @@
 audio:
-  target_path: '/home/lvanwyk1/lustre/emrai-synthetic-diarisation-corpus/librispeech2/dev_other/wavs49/*'
+  target_path: '/home/lvanwyk1/lustre/emrai-synthetic-diarization-corpus/librispeech2/dev_other/wavs49/'
+  fileids: '/home/lvanwyk1/lustre/emrai-synthetic-diarization-corpus/librispeech2/dev_other/fileids'
   num_target_tracks: -1
-  label_path: '/home/lvanwyk1/lustre/emrai-synthetic-diarisation-corpus/librispeech2/framelabs'
-  #verification_path: '/home/lucas/PycharmProjects/MetricEmbeddingNet/temp_files/with_vad/'
+  label_path: '/home/lvanwyk1/lustre/emrai-synthetic-diarization-corpus/librispeech2/framelabs'
+  track_manifest: '/home/lvanwyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/manifest_files/track_manifest.json'
+  embedding_dir: '/home/lvnawyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/embeddings/'
   verification_length: 3
-  rttm_path: '/home/lucas/PycharmProjects/Data/EMRAI/dev_other/rttm/'
+  rttm_path: '/home/lvanwyk1/lustre/emrai-synthetic-diarization-corpus/librispeech2/rttms'
   window_length: [1]
   step_length: [1]
   collar: 0.250

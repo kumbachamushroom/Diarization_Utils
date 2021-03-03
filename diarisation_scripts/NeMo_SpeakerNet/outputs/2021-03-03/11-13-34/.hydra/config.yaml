@@ -1,0 +1,11 @@
+audio:
+  target_path: /home/lvanwyk1/lustre/emrai-synthetic-diarisation-corpus/librispeech2/dev_other/wavs49/*
+  num_target_tracks: -1
+  label_path: /home/lvanwyk1/lustre/emrai-synthetic-diarisation-corpus/librispeech2/framelabs
+  verification_length: 3
+  rttm_path: /home/lucas/PycharmProjects/Data/EMRAI/dev_other/rttm/
+  window_length:
+  - 1
+  step_length:
+  - 1
+  collar: 0.25

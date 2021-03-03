@@ -37,6 +37,8 @@ from pyannote.core import Annotation
 from pyannote.metrics.diarization import DiarizationErrorRate
 from pyannote.core import Segment
 
+import sys
+
 
 def label_frames(label_path, window_size, step_size):
     '''
@@ -245,113 +247,118 @@ def get_der(cfg, rttm, output_annotations):
 
 seed_everything(42)
 
-@hydra.main(config_path='SpeakerVerification_EMRAI.yaml')
+@hydra.main(config_path='SpeakerNet_Diarisation_EMRAI.yaml')
 def main(cfg: DictConfig) -> None:
-    os.chdir('/home/lucas/PycharmProjects/NeMo_SpeakerVerification')
+
+    #GPU access
     cuda = 1 if torch.cuda.is_available() else 0
+
+    #Load model, take a look at ExtractSpeakerEmbeddingsModel function I have changed the code to give each embedding
+    #a unique name (test loop)!!!
     model = ExtractSpeakerEmbeddingsModel.from_pretrained(model_name='SpeakerNet_verification')
-    #SpeakerNet_verification = nemo_asr.models.EncDecSpeakerLabelModel.from_pretrained(model_name="SpeakerNet_verification")
+
+    #load track names
     if cfg.audio.num_target_tracks > -1:
-        audio_tracks = glob.glob(cfg.audio.target_path, recursive=True)[:cfg.audio.num_target_tracks]
+        fileids = [line for line in cfg.audio.fileids]
+        #audio_tracks = glob.glob(cfg.audio.target_path, recursive=True)[:cfg.audio.num_target_tracks]
     else:
-        audio_tracks = glob.glob(cfg.audio.target_path, recursive=True)
+        fileids = [line for line in cfg.audio.fileids][0:cfg.audio.num_target_tracks]
+        #audio_tracks = glob.glob(cfg.audio.target_path, recursive=True)
+    print(fileids)
 
-    #Text files for logging
-    der_log = open('/home/lucas/PycharmProjects/NeMo_SpeakerVerification/Txt_outs/der_cluster_noiseless.txt', 'w')
+    #remove the track_manifest if it exists
+    #probably better to do with os.remove but this is easier
+    os.system('rm -f {}'.format(cfg.audio.track_manifest))
 
-    if os.path.exists(os.path.join(os.getcwd(), 'manifest_files', 'target.json')):
-        os.remove(os.path.join(os.getcwd(), 'manifest_files', 'target.json'))
-
-
-    #Write target-speaker manifest files and check to see that all audio files have matching target files
-    for track in audio_tracks:
-        agent=track[track.find('-')+1:track.find('.')]
-        agent_samples = glob.glob(cfg.audio.verification_path+agent+'.wav', recursive=True)
-        if len(agent_samples) > 0:
-            write_target_manifest(audio_path=agent_samples[0], length=cfg.audio.verification_length, manifest_file='target.json',agent=agent)
-            # write_track_manifest(audio_path=track, frame_list=frame_list, manifest_file='track_manifest.json')
-            #model.setup_test_data(write_target_manifest(audio_path=agent_samples[0], length=cfg.audio.verification_length, manifest_file='target.json',agent=agent))
-            #trainer = pl.Trainer(gpus=cuda, accelerator=None)
-            #trainer.test(model)
-        else:
-            warnings.warn('Verification audio for {} not found '.format(agent))
-    test_config = OmegaConf.create(dict(
-        manifest_filepath = os.path.join(os.getcwd(), 'manifest_files', 'target.json'),
-        sample_rate = 16000,
-        labels = None,
-        batch_size = 1,
-        shuffle=False,
-        embedding_dir='./'#os.path.join(os.getcwd(),'embeddings')
-    ))
-    model.setup_test_data(test_config)
-    trainer = pl.Trainer(gpus=cuda)
-    trainer.test(model)
-
+    #write test-config for extracting model embeddings
     test_config = OmegaConf.create(dict(
         manifest_filepath=os.path.join(os.getcwd(), 'manifest_files', 'track_manifest.json'),
         sample_rate=16000,
         labels=None,
         batch_size=16,
         shuffle=False,
-        embedding_dir='./' ,
-        num_workers = 4# os.path.join(os.getcwd(),'embeddings')
+        embedding_dir='./',
+        num_workers = 4
     ))
 
-    if os.path.exists(os.path.join(os.getcwd(), 'manifest_files', 'track_manifest.json')):
-        os.remove(os.path.join(os.getcwd(), 'manifest_files', 'track_manifest.json'))
 
-    for window_length in cfg.audio.window_length:
-        for step_length in cfg.audio.step_length:
-            for track in audio_tracks:
-                agent = track[track.find('-') + 1:track.find('.')]
-                agent_samples = glob.glob(cfg.audio.verification_path + agent + '.wav', recursive=True)
-                rttm = glob.glob(cfg.audio.rttm_path + track[track.rfind('/') + 1:track.rfind('.')] + '.rttm',
-                                 recursive=False)[0]
-                #print(agent_samples)
-                if len(agent_samples) > 0:
-                    label_path = track[track.rfind('/')+1:track.find('.wav')]+'.labs'
-                    frame_list, speaker_df = label_frames(label_path=os.path.join(cfg.audio.label_path, label_path),
-                                                      window_size=window_length,
-                                                      step_size=float(window_length*step_length))
-                    write_track_manifest(audio_path=track, frame_list=frame_list, manifest_file='track_manifest.json', window_length=window_length, step_length=step_length)
-    model.setup_test_data(test_config)
-    trainer = pl.Trainer(gpus=cuda)
-    trainer.test(model)
-    track_manifest = [json.loads(line.replace('\n', '')) for line in
-                      open(os.path.join(os.getcwd(), 'manifest_files', 'track_manifest.json'))]
-    with open(os.path.join(os.getcwd(),'embeddings','track_manifest_embeddings.pkl'), 'rb') as f:
-        data = pickle.load(f).items()
-        all_track_embeddings = [emb for _, emb in data]
-    for window_length in cfg.audio.window_length:
-        for step_length in cfg.audio.step_length:
-            for track in audio_tracks:
-                agent = track[track.find('-') + 1:track.find('.')]
-                agent_samples = glob.glob(cfg.audio.verification_path + agent + '.wav', recursive=True)
-                rttm = glob.glob(cfg.audio.rttm_path + track[track.rfind('/') + 1:track.rfind('.')] + '.rttm',
-                                 recursive=False)[0]
-                # print(agent_samples)
-                if len(agent_samples) > 0:
-                    label_path = track[track.rfind('/') + 1:track.find('.wav')] + '.labs'
-                    frame_list, speaker_df = label_frames(label_path=os.path.join(cfg.audio.label_path, label_path),
-                                                          window_size=window_length,
-                                                          step_size=float(window_length * step_length))
-                    indices = [track_manifest.index(item) for item in track_manifest if
-                               item['audio_filepath'] == track and item["duration"] == window_length and item[
-                                   "step_length"] == step_length]
-                    print(indices)
-                    embedddings = all_track_embeddings[min(indices):max(indices)+1]
-                    cluster_outputs = cluster_embeddings(agent=agent, track=track, window_length=window_length, step_length=step_length, track_embedding=embedddings)
-                    #print(len(cluster_outputs))
-                    #print(speaker_df.describe())
-                    coverage, purity = get_performance_metrics(speaker_df, np.array(cluster_outputs))
-                    print("The results for {} -> Coverage {} / Purity {}".format(track, coverage, purity))
-                    annotation = merge_frames(outputs=cluster_outputs, frame_list=frame_list)
-                    der = get_der(cfg=cfg, rttm=rttm, output_annotations=annotation)
-                    print('THE DER IS {}'.format(der))
-                    der_log.write('{} \t {} \t {} \t {} \t {} \t {} \n'.format(track, window_length, step_length, coverage,
-                                                                     purity, der))
 
-    der_log.close()
+    #for window_length in cfg.audio.window_length:
+    #    for step_length in cfg.audio.step_length:
+    #        for track in audio_tracks:
+    #            agent = track[track.find('-') + 1:track.find('.')]
+    #            agent_samples = glob.glob(cfg.audio.verification_path + agent + '.wav', recursive=True)
+    #            rttm = glob.glob(cfg.audio.rttm_path + track[track.rfind('/') + 1:track.rfind('.')] + '.rttm',
+    #                             recursive=False)[0]
+    #            #print(agent_samples)
+    #            if len(agent_samples) > 0:
+    #                label_path = track[track.rfind('/')+1:track.find('.wav')]+'.labs'
+    #                frame_list, speaker_df = label_frames(label_path=os.path.join(cfg.audio.label_path, label_path),
+    #                                                  window_size=window_length,
+    #                                                  step_size=float(window_length*step_length))
+    #                write_track_manifest(audio_path=track, frame_list=frame_list, manifest_file='track_manifest.json', window_length=window_length, step_length=step_length)
+    #model.setup_test_data(test_config)
+    #trainer = pl.Trainer(gpus=cuda)
+    #trainer.test(model)
+    #track_manifest = [json.loads(line.replace('\n', '')) for line in
+    #                  open(os.path.join(os.getcwd(), 'manifest_files', 'track_manifest.json'))]
+    #with open(os.path.join(os.getcwd(),'embeddings','track_manifest_embeddings.pkl'), 'rb') as f:
+    #    data = pickle.load(f).items()
+    #    all_track_embeddings = [emb for _, emb in data]
+    #for window_length in cfg.audio.window_length:
+    #    for step_length in cfg.audio.step_length:
+    #        for track in audio_tracks:
+    #            agent = track[track.find('-') + 1:track.find('.')]
+    #            agent_samples = glob.glob(cfg.audio.verification_path + agent + '.wav', recursive=True)
+    #            rttm = glob.glob(cfg.audio.rttm_path + track[track.rfind('/') + 1:track.rfind('.')] + '.rttm',
+    #                             recursive=False)[0]
+    #            # print(agent_samples)
+    #            if len(agent_samples) > 0:
+    #                label_path = track[track.rfind('/') + 1:track.find('.wav')] + '.labs'
+    #                frame_list, speaker_df = label_frames(label_path=os.path.join(cfg.audio.label_path, label_path),
+    #                                                      window_size=window_length,
+    #                                                      step_size=float(window_length * step_length))
+    #                indices = [track_manifest.index(item) for item in track_manifest if
+    #                           item['audio_filepath'] == track and item["duration"] == window_length and item[
+    #                               "step_length"] == step_length]
+    #                print(indices)
+    #                embedddings = all_track_embeddings[min(indices):max(indices)+1]
+    #                cluster_outputs = cluster_embeddings(agent=agent, track=track, window_length=window_length, step_length=step_length, track_embedding=embedddings)
+    #                #print(len(cluster_outputs))
+    #                #print(speaker_df.describe())
+    #                coverage, purity = get_performance_metrics(speaker_df, np.array(cluster_outputs))
+    #                print("The results for {} -> Coverage {} / Purity {}".format(track, coverage, purity))
+    #                annotation = merge_frames(outputs=cluster_outputs, frame_list=frame_list)
+    #                der = get_der(cfg=cfg, rttm=rttm, output_annotations=annotation)
+    #                print('THE DER IS {}'.format(der))
+    #                der_log.write('{} \t {} \t {} \t {} \t {} \t {} \n'.format(track, window_length, step_length, coverage,
+    #                                                                 purity, der))
+
+    #der_log.close()
+
 
 if __name__ == '__main__':
     main()
+ #Write target-speaker manifest files and check to see that all audio files have matching target files
+    #for track in audio_tracks:
+    #    agent=track[track.find('-')+1:track.find('.')]
+    #    agent_samples = glob.glob(cfg.audio.verification_path+agent+'.wav', recursive=True)
+    #    if len(agent_samples) > 0:
+    #        write_target_manifest(audio_path=agent_samples[0], length=cfg.audio.verification_length, manifest_file='target.json',agent=agent)
+    #        # write_track_manifest(audio_path=track, frame_list=frame_list, manifest_file='track_manifest.json')
+    #        #model.setup_test_data(write_target_manifest(audio_path=agent_samples[0], length=cfg.audio.verification_length, manifest_file='target.json',agent=agent))
+    #        #trainer = pl.Trainer(gpus=cuda, accelerator=None)
+    #        #trainer.test(model)
+    #    else:
+    #        warnings.warn('Verification audio for {} not found '.format(agent))
+    #test_config = OmegaConf.create(dict(
+    #    manifest_filepath = os.path.join(os.getcwd(), 'manifest_files', 'target.json'),
+    #    sample_rate = 16000,
+    #    labels = None,
+    #    batch_size = 1,
+    #    shuffle=False,
+    #    embedding_dir='./'#os.path.join(os.getcwd(),'embeddings')
+    #))
+    #model.setup_test_data(test_config)
+    #trainer = pl.Trainer(gpus=cuda)
+    #trainer.test(model)
