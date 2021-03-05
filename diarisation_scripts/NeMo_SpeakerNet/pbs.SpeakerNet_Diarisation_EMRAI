@@ -1,0 +1,31 @@
+#!/bin/bash
+#PBS -N SpeakerNet_NeMo
+#PBS -q gpu_1
+#PBS -P CSCI1191
+#PBS -l select=1:ncpus=8:ngpus=1
+#PBS -l walltime=1:00:00
+#PBS -o /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/out_log
+#PBS -e /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/error_log
+#PBS -m abe -M lucvanwyk@gmail.com
+
+module add chpc/python/anaconda/3-2019.10
+module load chpc/python/anaconda/3-2019.10
+source /apps/chpc/chem/anaconda3-2019.10/etc/profile.d/conda.sh
+
+cd /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet
+
+conda activate /mnt/lustre/users/lvanwyk1/nemo
+echo 'starting script'
+
+python SpeakerNet_Diarisation_EMRAI.py
+
+echo 'end of script'
+conda deactivate
+
+
+
+
+
+
+
+
