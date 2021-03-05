@@ -29,7 +29,7 @@ for id in fileids:
             end = (i)*0.01
             segments.append((start,end))
             start = 0
-    with open(os.path.join(out_dir, '{}.labs'.format(id)),'w') as file:
+    with open(os.path.join(out_dir, '{}.lab'.format(id)),'w') as file:
         for i, segment in enumerate(segments):
             if i < len(segments):
                 file.write('{} \t {} \t sp \n'.format(round(segment[0],3), round(segment[1],3)))
