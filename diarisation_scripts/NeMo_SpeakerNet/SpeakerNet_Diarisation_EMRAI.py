@@ -14,7 +14,7 @@ import torch
 import pandas as pd
 import numpy as np
 from math import floor
-from scipy.spatial.distance import cdist
+#from scipy.spatial.distance import cdist
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.cluster import AgglomerativeClustering, KMeans
@@ -24,7 +24,7 @@ from sklearn.decomposition import PCA
 import pickle
 
 import pytorch_lightning as pl
-from omegaconf.listconfig import ListConfig
+#from omegaconf.listconfig import ListConfig
 from omegaconf import DictConfig
 from omegaconf import OmegaConf
 from pytorch_lightning import seed_everything
@@ -37,7 +37,11 @@ from pyannote.core import Annotation
 from pyannote.metrics.diarization import DiarizationErrorRate
 from pyannote.core import Segment
 
+<<<<<<< HEAD
+#import sys
+=======
 import sys
+>>>>>>> c890048d7f13643095d9f34287c876b9bd9a482f
 
 
 def label_frames(label_path, window_size, step_size):
@@ -53,46 +57,28 @@ def label_frames(label_path, window_size, step_size):
     duration = len(labels)*0.01
     n_increments = floor((duration - window_size)/ step_size)
     frame_list = []
+    frame_labels = []
     for i in range(n_increments + 2):
         start_time = i * step_size
         stop_time = start_time + window_size
         frame_list.append((start_time, stop_time))
-    speaker_list = ['Agent', 'Caller']
+
     for frame in frame_list:
         start_time, stop_time = int(frame[0]/0.01), int(frame[1]/0.01)
         try:
             frame_label = get_common_label(labels[start_time:stop_time])
+            frame_labels.append(frame_label)
         except:
+            frame_label.append(0)
             None
-        if frame_label == 0:
-            frame_list.remove(frame)
-    speaker_df = pd.DataFrame(columns=speaker_list, data=np.zeros(shape=(len(frame_list), len(speaker_list)), dtype=int))
-    for i, frame in enumerate(frame_list):
-        start_time, stop_time = int(frame[0]/0.01), int(frame[1]/0.01)
-        try:
-            frame_label = get_common_label(labels[start_time:stop_time])
-        except:
-            None
-        if frame_label != 0:
-            speaker_df.iloc[i, frame_label-1] = 1
-    return frame_list, speaker_df
 
 
+    return frame_list, frame_labels
 
-
-def write_target_manifest(audio_path, length, manifest_file, agent):
-    with open(os.path.join(os.getcwd(), 'manifest_files', manifest_file), 'a') as outfile:
-        meta = {"audio_filepath":audio_path, "duration":length, "label":'agent'}
-        json_str = json.dumps(meta)
-        outfile.write(json_str)
-        outfile.write("\n")
-    print("Created target-speaker manifest file...")
 
 
 def write_track_manifest(audio_path, frame_list, manifest_file, window_length, step_length):
-    #if os.path.exists(os.path.join(os.getcwd(), 'manifest_files', manifest_file)):
-    #    os.remove(os.path.join(os.getcwd(), 'manifest_files', manifest_file))
-    with open(os.path.join(os.getcwd(), 'manifest_files', manifest_file), 'a') as outfile:
+    with open(manifest_file, 'a') as outfile:
         for i in range(len(frame_list)):
             start, stop = round(frame_list[i][0],1), round(frame_list[i][1],1)
             meta = {"audio_filepath":audio_path, "offset":start, "duration":window_length, "label":'agent',
@@ -104,48 +90,21 @@ def write_track_manifest(audio_path, frame_list, manifest_file, window_length, s
 
 
 
-def cluster_embeddings(agent, track, window_length, step_length, track_embedding):
-    #track_embedding = []
-    #track = track.split('/')[-1]
-    #indices = [track_manifest.index(item) for item in track_manifest if item['audio_filepath'] == track and item["duration"] == window_length and item["step_length"] == step_length]
-    #with open(os.path.join(os.getcwd(),'embeddings','track_manifest_embeddings.pkl'), 'rb') as f:
-    #    data = pickle.load(f).items()
-    #    track_embedding = [emb for _, emb in data][min(indices):max(indices)+1]
-        #for name, emb in data:
-        #    if track in name:
-        #        track_embedding.append(emb)
-
-    with open(os.path.join(os.getcwd(),'embeddings','target_embeddings.pkl'), 'rb') as f:
-        data = pickle.load(f).items()
-        for name, emb in data:
-            #print(agent, name)
-            if agent in name:
-                target_embedding = emb
+def cluster_embeddings(track_embedding):
+    '''
+    Cluster segments from uniform segmentation
+    :param track_embedding: The frame-level embeddings from the track to be clustered
+    :return: cluster labels
+    '''
 
     # Initialise cluster and fit
     kmeans_cluster = KMeans(n_clusters=2, random_state=5)
     #kmeans_cluster = AgglomerativeClustering(n_clusters=2, affinity='cosine', linkage='average')
     kmeans_cluster.fit_predict(X=track_embedding)
 
-    #PCA cluster plot
-    cluster_PCA(track_embedding, kmeans_cluster.labels_)
-
-    # Get average embeddings of each cluster
-    cluster1 = [track_embedding[i] for i,j in enumerate(kmeans_cluster.labels_) if (j == 0)]
-    cluster2 = [track_embedding[i] for i,j in enumerate(kmeans_cluster.labels_) if (j == 1)]
-    #print('Lengths of cluster 1 {} and 2 {}'.format(len(cluster1), len(cluster2)))
-    cluster1_avg = np.mean(cluster1, axis=0)
-    cluster2_avg = np.mean(cluster2, axis=0)
-
-    # Compute cluster distances from target embedding
-    cluster1_dist = cdist(cluster1_avg.reshape(1,-1), target_embedding.reshape(1,-1), metric='cosine')[0][0]
-    cluster2_dist = cdist(cluster2_avg.reshape(1,-1), target_embedding.reshape(1,-1), metric='cosine')[0][0]
-    target_cluster = 0 if cluster1_dist < cluster2_dist else 1
-    #print('CLUSTER 1 DIST IS {} AND CLUSTER 2 DIST IS {}'.format(cluster1_dist, cluster2_dist))
-
     outputs = []
     for label in kmeans_cluster.labels_:
-        outputs.append(1) if label == target_cluster else outputs.append(2)
+        outputs.append('cluster_{}'.format(label))
     return outputs
 
 def cluster_PCA(cluster_outputs, labels):
@@ -198,55 +157,50 @@ def get_performance_metrics(speaker_df, outputs):
 
     return (agent_coverage+caller_coverage)/2, (agent_purity+caller_purity)/2
 
-def merge_frames(outputs, frame_list):
+def merge_frames(outputs, frame_list, frame_labels):
     annotation = Annotation()
-    for speaker_num in range(1,3):
-        seg_start = 0
-        seg_end = 0
-        index = 0
-        smooth_segment = Segment(start=0, end=0)
-        skip = 0
-        for i, label in enumerate(outputs):
-            if (label == speaker_num) and (seg_start == 0) and (seg_end == 0):
-                if (skip != 0) and (skip < 1):
-                    try:
-                        del annotation[smooth_segment]
-                        seg_start = float(smooth_segment.start)
-                        seg_end = float(smooth_segment.end)
-                        skip = 0
-                    except:
-                        None
-                else:
-                    seg_start = float(frame_list[i][0])
-                    seg_end = float(frame_list[i][1])
-                    index = i
-            elif (label != speaker_num) and (seg_end > 0):
-                annotation[Segment(start=seg_start, end = seg_end)] = speaker_num
-                smooth_segment = Segment(start=seg_start, end=seg_end)
-                skip = 1
-                seg_start = 0
-                seg_end = 0
-            elif (seg_end > 0) and ((i - index) == 1):
-                index = i
-                seg_end = frame_list[i][1]
-                #print('step length away')
-            elif (seg_end > 0) and ((i - index) > 1):
-                annotation[Segment(start=seg_start, end=seg_end)] = speaker_num
-                seg_start = float(frame_list[i][0])
-                seg_end = float(frame_list[i][1])
-                index = i
-            elif (label != speaker_num) and (seg_end == 0):
-                skip = skip + 1
+    seg_start = 0
+    active_spk = 3
+    #print(frame_labels)
+    for i, frame in enumerate(frame_list):
+        if frame_labels[i] != 0:
+            annotation[Segment(start=float(frame[0]), end=float(frame[1]))] = outputs[i]
+    annotation.support(collar=0)
+    #print(annotation.get_timeline())
     return annotation
 
+
 def get_der(cfg, rttm, output_annotations):
-    metric = DiarizationErrorRate(skip_overlap=True, collar=cfg.audio.collar)
+    metric = DiarizationErrorRate(skip_overlap=False, collar=cfg.audio.collar)
     groundtruth = load_rttm(rttm)[rttm[rttm.rfind('/')+1:rttm.find('.')]]
     der = metric(groundtruth, output_annotations, detailed=False)
     return der
 
 seed_everything(42)
 
+<<<<<<< HEAD
+def get_track_embeddings(cfg):
+    '''
+    Write on manifest for all window-size/overlaps and embeds all segments once which for each track which saves
+    considerable time
+    :param cfg: DictConfig file, used with hydra
+    :return: fileids --> all the embedded files, track_manifest--> entire track_manifest.json file read into list
+    '''
+    # GPU access
+    cuda = 1 if torch.cuda.is_available() else 0
+
+    # Load model, take a look at ExtractSpeakerEmbeddingsModel function I have changed the code to give each embedding
+    # a unique name (test loop)!!!
+    model = ExtractSpeakerEmbeddingsModel.from_pretrained(model_name='SpeakerNet_verification')
+
+    # load track names
+    if cfg.audio.num_target_tracks == -1:
+        fileids = [line[:line.rfind('\n')] for line in open(cfg.audio.fileids)]
+    else:
+        fileids = [line[:line.rfind('\n')] for line in open(cfg.audio.fileids)][0:cfg.audio.num_target_tracks]
+
+    # write test-config for extracting model embeddings
+=======
 @hydra.main(config_path='SpeakerNet_Diarisation_EMRAI.yaml')
 def main(cfg: DictConfig) -> None:
 
@@ -271,12 +225,69 @@ def main(cfg: DictConfig) -> None:
     os.system('rm -f {}'.format(cfg.audio.track_manifest))
 
     #write test-config for extracting model embeddings
+>>>>>>> c890048d7f13643095d9f34287c876b9bd9a482f
     test_config = OmegaConf.create(dict(
-        manifest_filepath=os.path.join(os.getcwd(), 'manifest_files', 'track_manifest.json'),
+        manifest_filepath=cfg.audio.track_manifest,
         sample_rate=16000,
         labels=None,
         batch_size=16,
         shuffle=False,
+<<<<<<< HEAD
+        embedding_dir=cfg.audio.embedding_dir,
+        num_workers=4
+    ))
+
+    for window_length in cfg.audio.window_length:
+        for step_length in cfg.audio.step_length:
+            for track in fileids:
+                label_path = cfg.audio.label_path + track + '.labs'
+                frame_list, frame_labels = label_frames(label_path=label_path
+                                                      , window_size=window_length
+                                                      , step_size=float(window_length * step_length))
+                write_track_manifest(audio_path=cfg.audio.target_path + track + '.wav', frame_list=frame_list,
+                                     manifest_file=cfg.audio.track_manifest, window_length=window_length,
+                                     step_length=step_length)
+    model.setup_test_data(test_config)
+    trainer = pl.Trainer(gpus=cuda)
+    trainer.test(model)
+    track_manifest = [json.loads(line.replace('\n', '')) for line in
+                      open(cfg.audio.track_manifest)]
+    return fileids, track_manifest
+
+
+
+
+@hydra.main(config_path='SpeakerNet_Diarisation_EMRAI.yaml')
+def main(cfg: DictConfig) -> None:
+    # remove the track_manifest if it exists
+    # probably better to do with os.remove but this is easier
+    os.system('rm -f {}'.format(cfg.audio.track_manifest))
+    fileids, track_manifest = get_track_embeddings(cfg)
+
+    with open(os.path.join(cfg.audio.embedding_dir,'embeddings/track_manifest_embeddings.pkl'), 'rb') as f:
+        data = pickle.load(f).items()
+        all_track_embeddings = [emb for _, emb in data]
+
+    for window_length in cfg.audio.window_length:
+        for step_length in cfg.audio.step_length:
+            for track in fileids:
+                label_path = cfg.audio.label_path+track+'.labs'
+                rttm = cfg.audio.rttm_path+track+'.rttm'
+                frame_list, frame_labels = label_frames(label_path=label_path,
+                                                          window_size=window_length,
+                                                          step_size=float(window_length * step_length))
+                indices = [track_manifest.index(item) for item in track_manifest if item['audio_filepath'] == cfg.audio.target_path+track+'.wav' and item["duration"] == window_length and item["step_length"] == step_length]
+                embedddings = all_track_embeddings[min(indices):max(indices)+1]
+                cluster_outputs = cluster_embeddings(track_embedding=embedddings)
+
+                annotation = merge_frames(outputs=cluster_outputs, frame_list=frame_list, frame_labels=frame_labels)
+                os.system('mkdir -p {}'.format(os.path.join(cfg.audio.out_rttm_path,'window-length-{}'.format(window_length), 'step-length-{}'.format(step_length))))
+                with open(os.path.join(os.path.join(cfg.audio.out_rttm_path,'window-length-{}'.format(window_length), 'step-length-{}'.format(step_length),'{}.rttm'.format(track))),'w') as file:
+                    annotation.write_rttm(file)
+
+                #der = get_der(cfg=cfg, rttm=rttm, output_annotations=annotation)
+                #print('der for {} is {}'.format(track, der))
+=======
         embedding_dir='./',
         num_workers = 4
     ))
@@ -330,6 +341,7 @@ def main(cfg: DictConfig) -> None:
     #                print("The results for {} -> Coverage {} / Purity {}".format(track, coverage, purity))
     #                annotation = merge_frames(outputs=cluster_outputs, frame_list=frame_list)
     #                der = get_der(cfg=cfg, rttm=rttm, output_annotations=annotation)
+>>>>>>> c890048d7f13643095d9f34287c876b9bd9a482f
     #                print('THE DER IS {}'.format(der))
     #                der_log.write('{} \t {} \t {} \t {} \t {} \t {} \n'.format(track, window_length, step_length, coverage,
     #                                                                 purity, der))

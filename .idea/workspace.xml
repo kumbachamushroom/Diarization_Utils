@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fdcdf731-9d15-4555-99cc-b724ef4cd428" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1pEqIKLUGY04rIulV6UxfflzYHn" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../MetricEmbeddingNet" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="web.server" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fdcdf731-9d15-4555-99cc-b724ef4cd428" name="Default Changelist" comment="" />
+      <created>1614758515706</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1614758515706</updated>
+      <workItem from="1614758518355" duration="17410000" />
+      <workItem from="1614781058633" duration="3962000" />
+      <workItem from="1614853725399" duration="2673000" />
+      <workItem from="1614930490752" duration="3243000" />
+      <workItem from="1614933908296" duration="922000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="requirements.txt" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="696" y="376" width="518" height="325" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1614763244351">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="696" y="376" width="518" height="325" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1614763244351" />
+    <state x="994" y="84" width="872" height="912" key="CommitChangelistDialog2" timestamp="1614934738564">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="994" y="84" width="872" height="912" key="CommitChangelistDialog2/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1614934738564" />
+    <state x="100" y="98" width="1720" height="882" key="DiffContextDialog" timestamp="1614763580423">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="100" y="98" width="1720" height="882" key="DiffContextDialog/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1614763580423" />
+    <state x="2663" y="277" width="424" height="484" key="FileChooserDialogImpl" timestamp="1614855381008">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="743" y="297" width="424" height="484" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1614780866546" />
+    <state x="2663" y="277" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1614855381008" />
+    <state x="2369" y="151" width="1311" height="730" key="SettingsEditor" timestamp="1614853939670">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="449" y="174" width="1311" height="730" key="SettingsEditor/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1614764049200" />
+    <state x="2369" y="151" key="SettingsEditor/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1614853939670" />
+    <state x="123" y="32" width="1518" height="882" key="dock-window-1" timestamp="1614931161913">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="1825" y="0" width="1581" height="1038" maximized="true" key="dock-window-1/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1614781057788" />
+    <state x="123" y="32" width="1518" height="882" key="dock-window-1/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1614931161913" />
+    <state x="2415" y="120" width="403" height="635" key="ftp.server.browser" timestamp="1614853934931">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="495" y="144" width="403" height="635" key="ftp.server.browser/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1614763292246" />
+    <state x="2415" y="120" key="ftp.server.browser/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1614853934931" />
+    <state x="1103" y="237" width="672" height="678" key="search.everywhere.popup" timestamp="1614931395081">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="1103" y="237" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1614931395081" />
+  </component>
+</project>
