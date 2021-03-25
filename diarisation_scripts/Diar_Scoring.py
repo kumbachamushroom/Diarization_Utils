@@ -25,6 +25,7 @@ def compute_DER(fileids, ref_path, hyp_path, out_path):
 
                 metric = DiarizationErrorRate(skip_overlap=True, collar=0.250)
                 der = metric(reference, hypotheses, detailed=False)
+                #print(der)
                 file.write('{} \t {} \n'.format(id, der))
             except:
                 None

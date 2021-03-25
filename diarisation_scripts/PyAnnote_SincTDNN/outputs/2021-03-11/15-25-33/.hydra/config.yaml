@@ -1,0 +1,12 @@
+audio:
+  target_path: /mnt/lustre/users/lvanwyk1/emrai-synthetic-diarization-corpus/librispeech2/dev_other/wavs49/
+  fileids: /mnt/lustre/users/lvanwyk1/emrai-synthetic-diarization-corpus/librispeech2/dev_other/fileids
+  num_target_tracks: -1
+  label_path: /mnt/lustre/users/lvanwyk1/emrai-synthetic-diarization-corpus/librispeech2/dev_other/framelabs/
+  rttm_path: /mnt/lustre/users/lvanwyk1/emrai-synthetic-diarization-corpus/librispeech2/dev_other/rttm/
+  window_length:
+  - 0.7
+  step_length:
+  - 1
+  collar: 0
+  out_rttm_path: /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/PyAnnote_SincTDNN/no_noise/rttm_8kHz

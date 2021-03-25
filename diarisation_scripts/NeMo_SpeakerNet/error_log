@@ -1,42 +1,61 @@
-
-CommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.
-To initialize your shell, run
-
-    $ conda init <SHELL_NAME>
-
-Currently supported shells are:
-  - bash
-  - fish
-  - tcsh
-  - xonsh
-  - zsh
-  - powershell
-
-See 'conda init --help' for more information and options.
-
-IMPORTANT: You may need to close and restart your shell after running 'conda init'.
-
-
+cmdModule.c(567):ERROR:50: Cannot open file '/apps/compilers/intel/parallel_studio_xe_2020_update1/compilers_and_libraries/linux/mkl/mkl/bin/mkl-32' for 'reading'
+[NeMo W 2021-03-19 14:15:02 experimental:28] Module <class 'nemo.collections.asr.data.audio_to_text.AudioToCharDataset'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2021-03-19 14:15:02 experimental:28] Module <class 'nemo.collections.asr.data.audio_to_text.AudioToBPEDataset'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2021-03-19 14:15:02 experimental:28] Module <class 'nemo.collections.asr.data.audio_to_text.AudioLabelDataset'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2021-03-19 14:15:02 experimental:28] Module <class 'nemo.collections.asr.data.audio_to_text._TarredAudioToTextDataset'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2021-03-19 14:15:02 experimental:28] Module <class 'nemo.collections.asr.data.audio_to_text.TarredAudioToCharDataset'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2021-03-19 14:15:02 experimental:28] Module <class 'nemo.collections.asr.data.audio_to_text.TarredAudioToBPEDataset'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2021-03-19 14:15:07 nemo_logging:349] /mnt/lustre/users/lvanwyk1/nemo/lib/python3.7/site-packages/torch/cuda/__init__.py:52: UserWarning: CUDA initialization: Found no NVIDIA driver on your system. Please check that you have an NVIDIA GPU and installed a driver from http://www.nvidia.com/Download/index.aspx (Triggered internally at  /opt/conda/conda-bld/pytorch_1607370141920/work/c10/cuda/CUDAFunctions.cpp:100.)
+      return torch._C._cuda_getDeviceCount() > 0
+    
+[NeMo W 2021-03-19 14:15:08 experimental:28] Module <class 'nemo.collections.asr.losses.ctc.CTCLoss'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2021-03-19 14:15:08 experimental:28] Module <class 'nemo.collections.asr.data.audio_to_text_dali.AudioToCharDALIDataset'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2021-03-19 14:15:09 nemo_logging:349] /mnt/lustre/users/lvanwyk1/nemo/lib/python3.7/site-packages/torchaudio/backend/utils.py:54: UserWarning: "sox" backend is being deprecated. The default backend will be changed to "sox_io" backend in 0.8.0 and "sox" backend will be removed in 0.9.0. Please migrate to "sox_io" backend. Please refer to https://github.com/pytorch/audio/issues/903 for the detail.
+      '"sox" backend is being deprecated. '
+    
+[NeMo W 2021-03-19 14:15:12 nemo_logging:349] /mnt/lustre/users/lvanwyk1/nemo/lib/python3.7/site-packages/hydra/core/utils.py:207: UserWarning: 
+    Using config_path to specify the config name is deprecated, specify the config name via config_name
+    See https://hydra.cc/docs/next/upgrades/0.11_to_1.0/config_path_changes
+      warnings.warn(category=UserWarning, message=msg)
+    
+[NeMo W 2021-03-19 14:15:13 modelPT:110] Please call the ModelPT.setup_training_data() method and provide a valid configuration file to setup the train data loader.
+    Train config : 
+    manifest_filepath: /data/samsungSSD/NVIDIA/repos/NeMo/examples/speaker_recognition/myExps/datasets/combined/train_manifest.json
+    sample_rate: 16000
+    labels: null
+    batch_size: 64
+    shuffle: true
+    time_length: 8
+    
+[NeMo W 2021-03-19 14:15:13 modelPT:117] Please call the ModelPT.setup_validation_data() or ModelPT.setup_multiple_validation_data() method and provide a valid configuration file to setup the validation data loader(s). 
+    Validation config : 
+    manifest_filepath: /data/samsungSSD/NVIDIA/repos/NeMo/examples/speaker_recognition/myExps/datasets/voxceleb/train/small_manifest.json
+    sample_rate: 16000
+    labels: null
+    batch_size: 128
+    shuffle: false
+    time_length: 8
+    
+[NeMo W 2021-03-19 14:15:13 nemo_logging:349] /mnt/lustre/users/lvanwyk1/nemo/lib/python3.7/site-packages/hydra/_internal/utils.py:577: UserWarning: 
+    Field 'params' is deprecated since Hydra 1.0 and will be removed in Hydra 1.1.
+    Inline the content of params directly at the containing node.
+    See https://hydra.cc/docs/next/upgrades/0.11_to_1.0/object_instantiation_changes
+      warnings.warn(category=UserWarning, message=msg)
+    
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+[NeMo W 2021-03-19 14:15:14 nemo_logging:349] /mnt/lustre/users/lvanwyk1/nemo/lib/python3.7/site-packages/torch/functional.py:516: UserWarning: stft will require the return_complex parameter be explicitly  specified in a future PyTorch release. Use return_complex=False  to preserve the current behavior or return_complex=True to return  a complex output. (Triggered internally at  /opt/conda/conda-bld/pytorch_1607370141920/work/aten/src/ATen/native/SpectralOps.cpp:653.)
+      normalized, onesided, return_complex)
+    
+[NeMo W 2021-03-19 14:15:14 nemo_logging:349] /mnt/lustre/users/lvanwyk1/nemo/lib/python3.7/site-packages/torch/functional.py:516: UserWarning: The function torch.rfft is deprecated and will be removed in a future PyTorch release. Use the new torch.fft module functions, instead, by importing torch.fft and calling torch.fft.fft or torch.fft.rfft. (Triggered internally at  /opt/conda/conda-bld/pytorch_1607370141920/work/aten/src/ATen/native/SpectralOps.cpp:590.)
+      normalized, onesided, return_complex)
+    
+[NeMo W 2021-03-19 14:15:20 nemo_logging:349] /mnt/lustre/users/lvanwyk1/nemo/lib/python3.7/site-packages/pytorch_lightning/utilities/distributed.py:45: UserWarning: The testing_epoch_end should not return anything as of 9.1.to log, use self.log(...) or self.write(...) directly in the LightningModule
+      warnings.warn(*args, **kwargs)
+    
 Traceback (most recent call last):
-  File "SpeakerNet_Diarisation_EMRAI.py", line 26, in <module>
-    import pytorch_lightning as pl
-ModuleNotFoundError: No module named 'pytorch_lightning'
+  File "SpeakerNet_SegmentWise_Diarisation_EMRAI.py", line 223, in main
+    seg_emb = [emb for emb in all_track_embeddings[min(indices):max(indices)+1]]
+ValueError: min() arg is an empty sequence
 
-CommandNotFoundError: Your shell has not been properly configured to use 'conda deactivate'.
-To initialize your shell, run
-
-    $ conda init <SHELL_NAME>
-
-Currently supported shells are:
-  - bash
-  - fish
-  - tcsh
-  - xonsh
-  - zsh
-  - powershell
-
-See 'conda init --help' for more information and options.
-
-IMPORTANT: You may need to close and restart your shell after running 'conda init'.
-
-
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

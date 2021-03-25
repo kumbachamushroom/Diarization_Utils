@@ -6,13 +6,14 @@ import sys
 # .scp file is <start> <end> sp and saved as file-id.lab
 #Usage: python ref_to_Vbx_labs.py <file-ids> <lab-in> <out-dir>
 
-#fileids = sys.argv[1]
-#lab_dir = sys.argv[2]
-#out_dir = sys.argv[3]
+fileids = sys.argv[1]
+lab_dir = sys.argv[2]
+out_dir = sys.argv[3]
+type = sys.argv[4]
 
-fileids = '/home/lucas/PycharmProjects/Data/EMRAI/dev_other/fileids'
-lab_dir = '/home/lucas/PycharmProjects/Data/EMRAI/dev_other/framelabs'
-out_dir = '/home/lucas/PycharmProjects/Diarization_Utils/preprocessing/EMRAI_VBx_ref_labs'
+#fileids = '/home/lucas/PycharmProjects/Data/EMRAI/dev_other/fileids'
+#lab_dir = '/home/lucas/PycharmProjects/Data/EMRAI/dev_other/framelabs'
+#out_dir = '/home/lucas/PycharmProjects/Diarization_Utils/preprocessing/EMRAI_VBx_ref_labs'
 
 fileids = [line[:line.rfind('\n')] for line in open(fileids)]
 
@@ -32,6 +33,13 @@ for id in fileids:
     with open(os.path.join(out_dir, '{}.lab'.format(id)),'w') as file:
         for i, segment in enumerate(segments):
             if i < len(segments):
-                file.write('{} \t {} \t sp \n'.format(round(segment[0],3), round(segment[1],3)))
+                if type == 'VBx':
+                    file.write('{} \t {} \t sp \n'.format(round(segment[0],3), round(segment[1],3)))
+                else:
+                    file.write('{} \t {}\n'.format(round(segment[0], 3), round(segment[1], 3)))
             else:
-                file.write('{} \t {} \t sp'.format(round(segment[0], 3), round(segment[1], 3)))
+                if type == 'VBx':
+                    file.write('{} \t {} \t sp'.format(round(segment[0], 3), round(segment[1], 3)))
+                else:
+                    file.write('{} \t {}\n'.format(round(segment[0], 3), round(segment[1], 3)))
+

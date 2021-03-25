@@ -1,0 +1,15 @@
+audio:
+  target_path: /mnt/lustre/users/lvanwyk1/emrai-synthetic-diarization-corpus/librispeech2/test_other/wavs/
+  fileids: /mnt/lustre/users/lvanwyk1/emrai-synthetic-diarization-corpus/librispeech2/test_other/fileids
+  num_target_tracks: -1
+  label_path: /mnt/lustre/users/lvanwyk1/emrai-synthetic-diarization-corpus/librispeech2/test_other/framelabs/
+  rttm_path: /mnt/lustre/users/lvanwyk1/emrai-synthetic-diarization-corpus/librispeech2/test_other/rttm/
+  out_rttm_path: /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/PyAnnote_SincTDNN/no_noise/test_other/rttm_16kHz
+  window_length:
+  - 1
+  step_length:
+  - 1
+  collar: 0
+  resegmentation: true
+  plda_backend: /mnt/lustre/users/lvanwyk1/VBx/VBx/models/ResNet101_16kHz/transform.h5
+  plda_file: /mnt/lustre/users/lvanwyk1/VBx/VBx/models/ResNet101_16kHz/plda

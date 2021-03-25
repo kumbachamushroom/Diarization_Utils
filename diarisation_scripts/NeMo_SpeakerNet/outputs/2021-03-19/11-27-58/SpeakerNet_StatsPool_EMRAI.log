@@ -1,0 +1,132 @@
+[2021-03-19 11:28:02,083][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:28:02,083][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:28:02,084][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:28:32,487][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:28:32,487][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:28:32,487][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:28:37,716][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:28:37,717][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:28:37,717][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:28:44,971][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:28:44,971][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:28:44,971][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:28:51,306][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:28:51,306][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:28:51,306][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:28:57,908][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:28:57,908][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:28:57,908][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:29:08,127][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:29:08,127][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:29:08,127][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:29:21,238][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:29:21,238][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:29:21,238][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:29:25,207][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:29:25,207][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:29:25,207][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:29:28,713][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:29:28,713][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:29:28,713][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:29:31,150][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:29:31,150][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:29:31,150][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:29:37,526][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:29:37,526][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:29:37,526][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:29:45,129][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:29:45,129][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:29:45,129][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:29:51,516][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:29:51,516][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:29:51,516][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:30:37,148][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:30:37,148][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:30:37,148][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:30:44,745][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:30:44,746][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:30:44,746][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:30:56,250][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:30:56,250][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:30:56,251][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:31:02,347][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:31:02,348][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:31:02,348][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:31:06,918][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:31:06,919][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:31:06,919][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:31:10,759][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:31:10,759][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:31:10,759][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:31:17,804][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:31:17,805][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:31:17,805][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:31:18,546][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:31:18,547][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:31:18,547][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:31:25,950][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:31:25,950][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:31:25,951][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:31:32,345][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:31:32,345][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:31:32,346][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:31:40,028][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:31:40,028][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:31:40,028][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:31:43,251][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:31:43,251][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:31:43,251][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:31:46,926][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:31:46,926][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:31:46,926][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:31:49,612][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:31:49,613][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:31:49,613][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:31:54,265][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:31:54,266][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:31:54,266][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:31:59,118][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:31:59,118][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:31:59,119][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:32:04,966][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:32:04,966][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:32:04,966][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:32:09,070][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:32:09,070][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:32:09,070][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:32:18,275][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:32:18,275][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:32:18,276][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:32:30,673][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:32:30,673][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:32:30,673][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:32:47,795][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:32:47,795][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:32:47,796][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:32:53,810][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:32:53,810][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:32:53,810][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:33:03,502][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:33:03,502][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:33:03,503][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:33:18,717][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:33:18,717][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:33:18,717][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:33:32,183][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:33:32,183][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:33:32,184][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:33:36,321][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:33:36,321][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:33:36,321][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:33:37,706][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:33:37,707][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:33:37,707][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:33:57,526][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:33:57,526][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:33:57,527][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:34:01,065][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:34:01,065][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:34:01,065][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]
+[2021-03-19 11:34:13,458][lightning][INFO] - GPU available: True, used: True
+[2021-03-19 11:34:13,458][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-19 11:34:13,458][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [1]

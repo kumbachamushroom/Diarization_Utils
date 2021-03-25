@@ -1,0 +1,27 @@
+#Run Diar_scoring script $1 -> fileids $2 -> ref_rttms $3 -> hyp_rttms $4 -> out_dir
+
+#!/bin/bash
+#PBS -P CSCI1191
+#PBS -N DiarScoring
+#PBS -l select=1:ncpus=2
+#PBS -l walltime=0:10:00
+#PBS -q serial
+#PBS -m abe
+#PBS -M 27174786@student.g.nwu.ac.za
+#PBS -o /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/logs/diarscore_out
+#PBS -e /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/logs/diarscore_err
+
+module add chpc/python/anaconda/3-2019.10
+module load chpc/python/anaconda/3-2019.10
+source /apps/chpc/chem/anaconda3-2019.10/etc/profile.d/conda.sh
+
+cd /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts
+
+conda activate /mnt/lustre/users/lvanwyk1/nemo
+#echo $VARIABLE1
+#echo $VARIABLE2
+
+python Diar_Scoring.py $fileids_test_16 $ref_rttm_test_16 $hyp_rttm 'DER' $hyp_rttm
+
+conda deactivate
+

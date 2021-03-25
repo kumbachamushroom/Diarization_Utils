@@ -6,34 +6,39 @@ Trained on voxceleb 1&2 and augmented with MUSAN
 Use script with SincTDNN_Diarisation_EMRAI.yaml
 '''
 
-import os
-import glob
-import json
-import warnings
+
 import torch
-import pandas as pd
 import numpy as np
 from math import floor
-import seaborn as sns
-import matplotlib.pyplot as plt
-from sklearn.cluster import AgglomerativeClustering, KMeans
-from sklearn.manifold import TSNE
-from sklearn.decomposition import PCA
-
-import pickle
-
-import pytorch_lightning as pl
 from omegaconf import DictConfig
-from omegaconf import OmegaConf
-from pytorch_lightning import seed_everything
 import hydra
-
+from sklearn.cluster import AgglomerativeClustering, KMeans
+import os
+from collections import Counter
 
 #Pyannote tools used for DER, merging frames, reading rttms etc..
-from pyannote.database.util import load_rttm
+
 from pyannote.core import Annotation
-from pyannote.metrics.diarization import DiarizationErrorRate
 from pyannote.core import Segment
+
+def cluster_embeddings(track_embedding):
+    '''
+    Cluster segments from uniform segmentation
+    :param track_embedding: The frame-level embeddings from the track to be clustered
+    :return: cluster labels
+    '''
+    #for embedding in track_embedding:
+    #    if np.isnan(np.sum(embedding)):
+    #        embedding[:] = 0
+    # Initialise cluster and fit
+    kmeans_cluster = KMeans(n_clusters=2, random_state=5)
+    #kmeans_cluster = AgglomerativeClustering(n_clusters=2, affinity='cosine', linkage='average')
+    kmeans_cluster.fit_predict(X=track_embedding)
+
+    outputs = []
+    for label in kmeans_cluster.labels_:
+        outputs.append('cluster_{}'.format(label))
+    return outputs
 
 def label_frames(label_path, window_size, step_size):
     '''
@@ -60,10 +65,8 @@ def label_frames(label_path, window_size, step_size):
             frame_label = get_common_label(labels[start_time:stop_time])
             frame_labels.append(frame_label)
         except:
-            frame_label.append(0)
+            frame_labels.append(0)
             None
-
-
     return frame_list, frame_labels
 
 def merge_frames(outputs, frame_list, frame_labels):
@@ -73,8 +76,12 @@ def merge_frames(outputs, frame_list, frame_labels):
     #print(frame_labels)
     for i, frame in enumerate(frame_list):
         if frame_labels[i] != 0:
-            annotation[Segment(start=float(frame[0]), end=float(frame[1]))] = outputs[i]
-    annotation.support(collar=0)
+            try:
+                annotation[Segment(start=float(frame[0]), end=float(frame[1]))] = outputs[i]
+            except:
+                print('{} is does not have an output but it has label {}'.format(frame, frame_labels[i]))
+                print('i = {} and len = {}'.format(i, len(outputs)))
+    annotation = annotation.support()
     #print(annotation.get_timeline())
     return annotation
 
@@ -86,16 +93,19 @@ def get_track_embeddings(model, frame_list, path):
         try:
             excerpt = Segment(start=start, end=stop)
             embedding = np.mean(model.crop({'audio': path, 'duration': duration}, segment=excerpt), axis=0, keepdims=True)
+            if np.isnan(np.sum(embedding)):
+                embedding[:] = 0
             embeddings.append(embedding)
         except:
             embeddings.append(np.zeros(shape=(1,512), dtype=float))
+            #del frame_list[i]
             print('could not embed  ',start, stop)
     return np.concatenate(embeddings, axis=0)
 
 
 @hydra.main(config_path="SincTDNN_Diarisation_EMRAI.yaml")
 def main(cfg: DictConfig) -> None:
-    #load SincTDN model
+    #load SincTDNN model
     model = torch.hub.load('pyannote/pyannote-audio', 'emb_voxceleb')
     # load track names
     if cfg.audio.num_target_tracks == -1:
@@ -110,5 +120,12 @@ def main(cfg: DictConfig) -> None:
                                                         window_size=window_length,
                                                         step_size=float(window_length * step_length))
                 embeddings = get_track_embeddings(model=model, frame_list=frame_list, path=cfg.audio.target_path+track+'.wav')
+                #print(embeddings.shape)
+                cluster_outputs = cluster_embeddings(track_embedding=embeddings)
+                annotation = merge_frames(outputs=cluster_outputs, frame_list=frame_list, frame_labels=frame_labels)
+                os.system('mkdir -p {}'.format(os.path.join(cfg.audio.out_rttm_path,'window-length-{}'.format(window_length), 'step-length-{}'.format(step_length))))
+                with open(os.path.join(os.path.join(cfg.audio.out_rttm_path,'window-length-{}'.format(window_length), 'step-length-{}'.format(step_length),'{}.rttm'.format(track))),'w') as file:
+                    annotation.write_rttm(file)
+
 if __name__ == '__main__':
     main()

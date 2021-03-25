@@ -1,0 +1,34 @@
+#!/bin/bash
+#PBS -N SincTDNN_EMRAI
+#PBS -q gpu_1
+#PBS -P CSCI1191
+#PBS -l select=1:ncpus=8:ngpus=1
+#PBS -l walltime=8:00:00
+#PBS -o /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/PyAnnote_SincTDNN/out_log
+#PBS -e /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/PyAnnote_SincTDNN/error_log
+#PBS -m abe -M 27174786@student.g.nwu.ac.za
+
+module add chpc/python/anaconda/3-2019.10
+module load chpc/python/anaconda/3-2019.10
+source /apps/chpc/chem/anaconda3-2019.10/etc/profile.d/conda.sh
+
+cd /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/PyAnnote_SincTDNN
+
+conda activate /mnt/lustre/users/lvanwyk1/nemo
+echo 'starting script'
+
+export $TORCH_HOME=/mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/PyAnnote_SincTDNN
+python SincTDNN_Diarisation_EMRAI.py
+
+echo 'end of script'
+conda deactivate
+
+
+
+
+
+
+
+
+
+

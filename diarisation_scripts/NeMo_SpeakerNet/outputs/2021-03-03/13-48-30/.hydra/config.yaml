@@ -1,0 +1,14 @@
+audio:
+  target_path: /home/lvanwyk1/lustre/emrai-synthetic-diarization-corpus/librispeech2/dev_other/wavs49/
+  fileids: /home/lvanwyk1/lustre/emrai-synthetic-diarization-corpus/librispeech2/dev_other/fileids
+  num_target_tracks: -1
+  label_path: /home/lvanwyk1/lustre/emrai-synthetic-diarization-corpus/librispeech2/dev_other/framelabs/
+  track_manifest: /home/lvanwyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/manifest_files/track_manifest.json
+  embedding_dir: /home/lvnawyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/
+  verification_length: 3
+  rttm_path: /home/lvanwyk1/lustre/emrai-synthetic-diarization-corpus/librispeech2/dev_other/rttm/
+  window_length:
+  - 1
+  step_length:
+  - 1
+  collar: 0.25

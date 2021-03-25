@@ -62,8 +62,8 @@ def overlay_noise(input_list, out_dir, SNR_list, noise, noise_duration):
             RMS_required = get_RMS_required(RMS_signal, SNR)
             noise_proc = attenuate_noise(noise_proc, RMS_noise, RMS_required)
             print('length of noise proc {} and length of track {}'.format(len(noise_proc), len(track)))
-            sf.write(file=os.path.join(out_dir,'SNR_{}'.format(SNR),input_filename[input_filename.rfind('/')+1:]),data=add_signals(track,noise_proc), samplerate=8000)
-            #librosa.output.write_wav(path=os.path.join(out_dir,'SNR_{}'.format(SNR),input_filename[input_filename.rfind('/')+1:]), y=add_signals(track, noise_proc), sr=8000)
+            sf.write(file=os.path.join(out_dir,'SNR_{}'.format(SNR),input_filename[input_filename.rfind('/')+1:]),data=add_signals(track,noise_proc), samplerate=sr)
+            #librosa.output.write_wav(path=os.path.join(out_dir,'SNR_{}'.format(SNR),input_filename[input_filename.rfind('/')+1:]), y=add_signals(track, noise_proc), sr=sr)
 
 
 @hydra.main(config_path="./Add_MUSAN_Noise.yaml")

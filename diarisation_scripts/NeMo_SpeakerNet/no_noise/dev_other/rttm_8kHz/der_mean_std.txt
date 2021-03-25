@@ -1,0 +1,5 @@
+/mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/no_noise/rttm_8kHz/window-length-0.5/step-length-0.8	0.3798564980218089	0.14705376810466647
+/mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/no_noise/rttm_8kHz/window-length-0.5/step-length-1	0.35380693310108163	0.13782375648944847
+/mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/no_noise/rttm_8kHz/window-length-0.6/step-length-0.8	0.35134652696384366	0.14733483099208514
+/mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/no_noise/rttm_8kHz/window-length-0.6/step-length-1	0.32356141266976235	0.13163504836355203
+/mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/no_noise/rttm_8kHz/window-length-0.7/step-length-0.8	0.3491052758375488	0.1499212310002331

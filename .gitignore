@@ -1,1 +1,6 @@
 audio/
+diarisation_scripts/VBx_EMRAI
+diarisation_scripts/VBDiarisation_EMRAI
+diarisation_scripts/NeMo_SpeakerNet/manifest_files_2
+diarisation_scripts/NeMo_SpeakerNet/manifest_files
+diarisation_scripts/NeMo_SpeakerNet/embeddings

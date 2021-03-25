@@ -1,0 +1,3 @@
+[2021-03-05 13:35:37,505][lightning][INFO] - GPU available: True, used: True
+[2021-03-05 13:35:37,506][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-05 13:35:37,506][lightning][INFO] - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]

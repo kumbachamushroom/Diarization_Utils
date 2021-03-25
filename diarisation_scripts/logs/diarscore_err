@@ -1,0 +1,3 @@
+cmdModule.c(567):ERROR:50: Cannot open file '/apps/compilers/intel/parallel_studio_xe_2020_update1/compilers_and_libraries/linux/mkl/mkl/bin/mkl-32' for 'reading'
+/mnt/lustre/users/lvanwyk1/nemo/lib/python3.7/site-packages/pyannote/metrics/utils.py:184: UserWarning: 'uem' was approximated by the union of 'reference' and 'hypothesis' extents.
+  "'uem' was approximated by the union of 'reference' "

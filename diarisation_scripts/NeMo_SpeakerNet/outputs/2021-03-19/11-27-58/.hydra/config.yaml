@@ -1,0 +1,13 @@
+audio:
+  target_path: /mnt/lustre/users/lvanwyk1/emrai-synthetic-diarization-corpus/librispeech2/test_other/wavs/
+  fileids: /mnt/lustre/users/lvanwyk1/emrai-synthetic-diarization-corpus/librispeech2/test_other/fileids
+  num_target_tracks: -1
+  track_manifest: /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/manifest_files/track_manifest.json
+  embedding_dir: /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/
+  window_length:
+  - 0.6
+  step_length:
+  - 0.8
+  collar: 0
+  out_rttm_path: /mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/NeMo_SpeakerNet/no_noise/test_other/segmentwise
+  segments: /mnt/lustre/users/lvanwyk1/Diarization_Utils/preprocessing/EMRAI_VBx_ref_labs/test_other

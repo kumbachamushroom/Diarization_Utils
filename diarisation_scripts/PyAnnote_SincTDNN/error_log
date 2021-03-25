@@ -1,0 +1,9 @@
+cmdModule.c(567):ERROR:50: Cannot open file '/apps/compilers/intel/parallel_studio_xe_2020_update1/compilers_and_libraries/linux/mkl/mkl/bin/mkl-32' for 'reading'
+/var/spool/PBS/mom_priv/jobs/3401175.sched01.SC: line 20: export: `=/mnt/lustre/users/lvanwyk1/Diarization_Utils/diarisation_scripts/PyAnnote_SincTDNN': not a valid identifier
+/mnt/lustre/users/lvanwyk1/nemo/lib/python3.7/site-packages/hydra/core/utils.py:207: UserWarning: 
+Using config_path to specify the config name is deprecated, specify the config name via config_name
+See https://hydra.cc/docs/next/upgrades/0.11_to_1.0/config_path_changes
+  warnings.warn(category=UserWarning, message=msg)
+Using cache found in /home/lvanwyk1/.cache/torch/hub/pyannote_pyannote-audio_master
+/mnt/lustre/users/lvanwyk1/nemo/lib/python3.7/site-packages/pyannote/audio/embedding/approaches/arcface_loss.py:170: FutureWarning: The 's' parameter is deprecated in favor of 'scale', and will be removed in a future release
+  warnings.warn(msg, FutureWarning)

@@ -1,0 +1,18 @@
+[2021-03-03 13:33:18,357][lightning][INFO] - GPU available: False, used: False
+[2021-03-03 13:33:18,357][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-03 13:33:26,375][lightning][INFO] - GPU available: False, used: False
+[2021-03-03 13:33:26,376][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-03 13:33:27,976][lightning][INFO] - GPU available: False, used: False
+[2021-03-03 13:33:27,976][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-03 13:33:30,277][lightning][INFO] - GPU available: False, used: False
+[2021-03-03 13:33:30,278][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-03 13:33:32,288][lightning][INFO] - GPU available: False, used: False
+[2021-03-03 13:33:32,289][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-03 13:33:34,504][lightning][INFO] - GPU available: False, used: False
+[2021-03-03 13:33:34,504][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-03 13:33:36,040][lightning][INFO] - GPU available: False, used: False
+[2021-03-03 13:33:36,040][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-03 13:33:38,927][lightning][INFO] - GPU available: False, used: False
+[2021-03-03 13:33:38,929][lightning][INFO] - TPU available: False, using: 0 TPU cores
+[2021-03-03 13:33:43,338][lightning][INFO] - GPU available: False, used: False
+[2021-03-03 13:33:43,339][lightning][INFO] - TPU available: False, using: 0 TPU cores

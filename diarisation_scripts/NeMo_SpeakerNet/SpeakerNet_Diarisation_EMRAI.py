@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import AgglomerativeClustering, KMeans
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
+import h5py
 
 import pickle
 
@@ -37,12 +38,12 @@ from pyannote.core import Annotation
 from pyannote.metrics.diarization import DiarizationErrorRate
 from pyannote.core import Segment
 
-<<<<<<< HEAD
-#import sys
-=======
-import sys
->>>>>>> c890048d7f13643095d9f34287c876b9bd9a482f
+from VBx.diarization_lib import l2_norm, cos_similarity, twoGMMcalib_lin, AHC , merge_adjacent_labels
+from VBx.kaldi_utils import read_plda
+from VBx.VB_diarization import VB_diarization
 
+from scipy.special import softmax
+from scipy.linalg import eigh
 
 def label_frames(label_path, window_size, step_size):
     '''
@@ -69,8 +70,8 @@ def label_frames(label_path, window_size, step_size):
             frame_label = get_common_label(labels[start_time:stop_time])
             frame_labels.append(frame_label)
         except:
-            frame_label.append(0)
-            None
+            frame_labels.append(0)
+            #None
 
 
     return frame_list, frame_labels
@@ -164,8 +165,12 @@ def merge_frames(outputs, frame_list, frame_labels):
     #print(frame_labels)
     for i, frame in enumerate(frame_list):
         if frame_labels[i] != 0:
-            annotation[Segment(start=float(frame[0]), end=float(frame[1]))] = outputs[i]
-    annotation.support(collar=0)
+            try:
+                annotation[Segment(start=float(frame[0]), end=float(frame[1]))] = outputs[i]
+            except:
+                print('{} is does not have an output but it has label {}'.format(frame, frame_labels[i]))
+                print('i = {} and len = {}'.format(i, len(outputs)))
+    annotation = annotation.support()
     #print(annotation.get_timeline())
     return annotation
 
@@ -178,7 +183,6 @@ def get_der(cfg, rttm, output_annotations):
 
 seed_everything(42)
 
-<<<<<<< HEAD
 def get_track_embeddings(cfg):
     '''
     Write on manifest for all window-size/overlaps and embeds all segments once which for each track which saves
@@ -186,23 +190,6 @@ def get_track_embeddings(cfg):
     :param cfg: DictConfig file, used with hydra
     :return: fileids --> all the embedded files, track_manifest--> entire track_manifest.json file read into list
     '''
-    # GPU access
-    cuda = 1 if torch.cuda.is_available() else 0
-
-    # Load model, take a look at ExtractSpeakerEmbeddingsModel function I have changed the code to give each embedding
-    # a unique name (test loop)!!!
-    model = ExtractSpeakerEmbeddingsModel.from_pretrained(model_name='SpeakerNet_verification')
-
-    # load track names
-    if cfg.audio.num_target_tracks == -1:
-        fileids = [line[:line.rfind('\n')] for line in open(cfg.audio.fileids)]
-    else:
-        fileids = [line[:line.rfind('\n')] for line in open(cfg.audio.fileids)][0:cfg.audio.num_target_tracks]
-
-    # write test-config for extracting model embeddings
-=======
-@hydra.main(config_path='SpeakerNet_Diarisation_EMRAI.yaml')
-def main(cfg: DictConfig) -> None:
 
     #GPU access
     cuda = 1 if torch.cuda.is_available() else 0
@@ -213,10 +200,10 @@ def main(cfg: DictConfig) -> None:
 
     #load track names
     if cfg.audio.num_target_tracks > -1:
-        fileids = [line for line in cfg.audio.fileids]
+        fileids = [line[:line.rfind('\n')] for line in open(cfg.audio.fileids)][0:cfg.audio.num_target_tracks]
         #audio_tracks = glob.glob(cfg.audio.target_path, recursive=True)[:cfg.audio.num_target_tracks]
     else:
-        fileids = [line for line in cfg.audio.fileids][0:cfg.audio.num_target_tracks]
+        fileids = [line[:line.rfind('\n')] for line in open(cfg.audio.fileids)][0:cfg.audio.num_target_tracks]
         #audio_tracks = glob.glob(cfg.audio.target_path, recursive=True)
     print(fileids)
 
@@ -225,14 +212,14 @@ def main(cfg: DictConfig) -> None:
     os.system('rm -f {}'.format(cfg.audio.track_manifest))
 
     #write test-config for extracting model embeddings
->>>>>>> c890048d7f13643095d9f34287c876b9bd9a482f
+
     test_config = OmegaConf.create(dict(
         manifest_filepath=cfg.audio.track_manifest,
         sample_rate=16000,
         labels=None,
         batch_size=16,
         shuffle=False,
-<<<<<<< HEAD
+
         embedding_dir=cfg.audio.embedding_dir,
         num_workers=4
     ))
@@ -255,6 +242,60 @@ def main(cfg: DictConfig) -> None:
     return fileids, track_manifest
 
 
+def vbhmm(embeddings, transform, plda):
+    pca = PCA(n_components=256)
+    embeddings = pca.fit_transform(embeddings)
+
+    kaldi_plda = read_plda(plda)
+    plda_mu, plda_tr, plda_psi = kaldi_plda
+    W = np.linalg.inv(plda_tr.T.dot(plda_tr))
+    B = np.linalg.inv((plda_tr.T / plda_psi).dot(plda_tr))
+    acvar, wccn = eigh(B, W)
+    plda_psi = acvar[::-1]
+    plda_tr = wccn.T[::-1]
+
+    #print(len(embeddings))
+    print(np.vstack(embeddings).shape)
+    with h5py.File(transform, 'r') as f:
+        mean1 = np.array(f['mean1'])
+        mean2 = np.array(f['mean2'])
+        lda = np.array(f['lda'])
+        embeddings = l2_norm(lda.T.dot((l2_norm(embeddings-mean1)).transpose()).transpose() - mean2)
+
+    scr_mx = cos_similarity(embeddings)
+    thr, junk = twoGMMcalib_lin(scr_mx.ravel())
+    #labels1st = AHC(scr_mx, thr + -0.015)
+    kmean_cluster = KMeans(n_clusters=2, random_state=5)
+    labels1st = kmean_cluster.fit_predict(X=embeddings)
+    #print(labels1st)
+    # kmeans_cluster = AgglomerativeClustering(n_clusters=2, affinity='cosine', linkage='average')
+    #kmeans_cluster.fit_predict(X=track_embedding)
+    #labels1st = AgglomerativeClustering(n_clusters=2, affinity='cosine', linkage='average').fit(embeddings).labels_
+    #print(labels1st)
+
+    # Smooth the hard labels obtained from AHC to soft assignments
+    # of x-vectors to speakers
+    qinit = np.zeros((len(labels1st), np.max(labels1st) + 1))
+    qinit[range(len(labels1st)), labels1st] = 1.0
+    qinit = softmax(qinit * 5.0, axis=1)
+    fea = (embeddings - plda_mu).dot(plda_tr.T)[:, :128]
+    # Use VB-HMM for x-vector clustering. Instead of i-vector extractor model, we use PLDA
+    # => GMM with only 1 component, V derived accross-class covariance,
+    # and iE is inverse within-class covariance (i.e. identity)
+    sm = np.zeros(128)
+    siE = np.ones(128)
+    sV = np.sqrt(plda_psi[:128])
+    q, sp, L = VB_diarization(
+        fea, sm, np.diag(siE), np.diag(sV),
+        pi=None, gamma=qinit, maxSpeakers=qinit.shape[1],
+        maxIters=40, epsilon=1e-6,
+        loopProb=0.99, Fa=0.3, Fb=17)
+    labels1st = np.argsort(-q, axis=1)[:, 0]
+    #print(labels1st)
+    if q.shape[1] > 1:
+        labels2nd = np.argsort(-q, axis=1)[:, 1]
+    #print(labels2nd)
+    return labels2nd
 
 
 @hydra.main(config_path='SpeakerNet_Diarisation_EMRAI.yaml')
@@ -278,99 +319,19 @@ def main(cfg: DictConfig) -> None:
                                                           step_size=float(window_length * step_length))
                 indices = [track_manifest.index(item) for item in track_manifest if item['audio_filepath'] == cfg.audio.target_path+track+'.wav' and item["duration"] == window_length and item["step_length"] == step_length]
                 embedddings = all_track_embeddings[min(indices):max(indices)+1]
+                #if cfg.audio.resegmentation:
+                #    cluster_outputs = vbhmm(embeddings=embedddings, transform=cfg.audio.plda_backend, plda=cfg.audio.plda_file)
+                #    annotation = merge_frames(outputs=cluster_outputs, frame_list=frame_list, frame_labels=frame_labels)
+                #else:
                 cluster_outputs = cluster_embeddings(track_embedding=embedddings)
-
+                print(len(cluster_outputs))
                 annotation = merge_frames(outputs=cluster_outputs, frame_list=frame_list, frame_labels=frame_labels)
                 os.system('mkdir -p {}'.format(os.path.join(cfg.audio.out_rttm_path,'window-length-{}'.format(window_length), 'step-length-{}'.format(step_length))))
                 with open(os.path.join(os.path.join(cfg.audio.out_rttm_path,'window-length-{}'.format(window_length), 'step-length-{}'.format(step_length),'{}.rttm'.format(track))),'w') as file:
                     annotation.write_rttm(file)
 
-                #der = get_der(cfg=cfg, rttm=rttm, output_annotations=annotation)
-                #print('der for {} is {}'.format(track, der))
-=======
-        embedding_dir='./',
-        num_workers = 4
-    ))
 
-
-
-    #for window_length in cfg.audio.window_length:
-    #    for step_length in cfg.audio.step_length:
-    #        for track in audio_tracks:
-    #            agent = track[track.find('-') + 1:track.find('.')]
-    #            agent_samples = glob.glob(cfg.audio.verification_path + agent + '.wav', recursive=True)
-    #            rttm = glob.glob(cfg.audio.rttm_path + track[track.rfind('/') + 1:track.rfind('.')] + '.rttm',
-    #                             recursive=False)[0]
-    #            #print(agent_samples)
-    #            if len(agent_samples) > 0:
-    #                label_path = track[track.rfind('/')+1:track.find('.wav')]+'.labs'
-    #                frame_list, speaker_df = label_frames(label_path=os.path.join(cfg.audio.label_path, label_path),
-    #                                                  window_size=window_length,
-    #                                                  step_size=float(window_length*step_length))
-    #                write_track_manifest(audio_path=track, frame_list=frame_list, manifest_file='track_manifest.json', window_length=window_length, step_length=step_length)
-    #model.setup_test_data(test_config)
-    #trainer = pl.Trainer(gpus=cuda)
-    #trainer.test(model)
-    #track_manifest = [json.loads(line.replace('\n', '')) for line in
-    #                  open(os.path.join(os.getcwd(), 'manifest_files', 'track_manifest.json'))]
-    #with open(os.path.join(os.getcwd(),'embeddings','track_manifest_embeddings.pkl'), 'rb') as f:
-    #    data = pickle.load(f).items()
-    #    all_track_embeddings = [emb for _, emb in data]
-    #for window_length in cfg.audio.window_length:
-    #    for step_length in cfg.audio.step_length:
-    #        for track in audio_tracks:
-    #            agent = track[track.find('-') + 1:track.find('.')]
-    #            agent_samples = glob.glob(cfg.audio.verification_path + agent + '.wav', recursive=True)
-    #            rttm = glob.glob(cfg.audio.rttm_path + track[track.rfind('/') + 1:track.rfind('.')] + '.rttm',
-    #                             recursive=False)[0]
-    #            # print(agent_samples)
-    #            if len(agent_samples) > 0:
-    #                label_path = track[track.rfind('/') + 1:track.find('.wav')] + '.labs'
-    #                frame_list, speaker_df = label_frames(label_path=os.path.join(cfg.audio.label_path, label_path),
-    #                                                      window_size=window_length,
-    #                                                      step_size=float(window_length * step_length))
-    #                indices = [track_manifest.index(item) for item in track_manifest if
-    #                           item['audio_filepath'] == track and item["duration"] == window_length and item[
-    #                               "step_length"] == step_length]
-    #                print(indices)
-    #                embedddings = all_track_embeddings[min(indices):max(indices)+1]
-    #                cluster_outputs = cluster_embeddings(agent=agent, track=track, window_length=window_length, step_length=step_length, track_embedding=embedddings)
-    #                #print(len(cluster_outputs))
-    #                #print(speaker_df.describe())
-    #                coverage, purity = get_performance_metrics(speaker_df, np.array(cluster_outputs))
-    #                print("The results for {} -> Coverage {} / Purity {}".format(track, coverage, purity))
-    #                annotation = merge_frames(outputs=cluster_outputs, frame_list=frame_list)
-    #                der = get_der(cfg=cfg, rttm=rttm, output_annotations=annotation)
->>>>>>> c890048d7f13643095d9f34287c876b9bd9a482f
-    #                print('THE DER IS {}'.format(der))
-    #                der_log.write('{} \t {} \t {} \t {} \t {} \t {} \n'.format(track, window_length, step_length, coverage,
-    #                                                                 purity, der))
-
-    #der_log.close()
 
 
 if __name__ == '__main__':
     main()
- #Write target-speaker manifest files and check to see that all audio files have matching target files
-    #for track in audio_tracks:
-    #    agent=track[track.find('-')+1:track.find('.')]
-    #    agent_samples = glob.glob(cfg.audio.verification_path+agent+'.wav', recursive=True)
-    #    if len(agent_samples) > 0:
-    #        write_target_manifest(audio_path=agent_samples[0], length=cfg.audio.verification_length, manifest_file='target.json',agent=agent)
-    #        # write_track_manifest(audio_path=track, frame_list=frame_list, manifest_file='track_manifest.json')
-    #        #model.setup_test_data(write_target_manifest(audio_path=agent_samples[0], length=cfg.audio.verification_length, manifest_file='target.json',agent=agent))
-    #        #trainer = pl.Trainer(gpus=cuda, accelerator=None)
-    #        #trainer.test(model)
-    #    else:
-    #        warnings.warn('Verification audio for {} not found '.format(agent))
-    #test_config = OmegaConf.create(dict(
-    #    manifest_filepath = os.path.join(os.getcwd(), 'manifest_files', 'target.json'),
-    #    sample_rate = 16000,
-    #    labels = None,
-    #    batch_size = 1,
-    #    shuffle=False,
-    #    embedding_dir='./'#os.path.join(os.getcwd(),'embeddings')
-    #))
-    #model.setup_test_data(test_config)
-    #trainer = pl.Trainer(gpus=cuda)
-    #trainer.test(model)
